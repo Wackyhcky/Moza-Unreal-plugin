@@ -7,6 +7,7 @@
 #include "IInputDevice.h"
 #include "InputCoreTypes.h"
 #include "InputDevice.h"
+#include "Misc/CoreMiscDefines.h"
 
 #if PLATFORM_WINDOWS
 #include "Windows/AllowWindowsPlatformTypes.h"
@@ -34,6 +35,8 @@ namespace MozaDirectInput
     public:
         FMozaDirectInputDevice(const TSharedRef<FGenericApplicationMessageHandler>& InMessageHandler)
             : MessageHandler(InMessageHandler)
+            , PlatformUserId(FPlatformUserId::CreateFromInternalId(0))
+            , InputDeviceId(FInputDeviceId::CreateFromInternalId(0))
             , bDeviceReady(false)
             , bHasFallbackDevice(false)
         {
@@ -233,11 +236,11 @@ namespace MozaDirectInput
                     const FKey ButtonKey = FGamepadKeyNames::FaceButtonBottom;
                     if (bIsPressed)
                     {
-                        MessageHandler->OnControllerButtonPressed(ButtonKey.GetFName(), 0, false);
+                        MessageHandler->OnControllerButtonPressed(ButtonKey.GetFName(), PlatformUserId, InputDeviceId, /*IsRepeat=*/false);
                     }
                     else
                     {
-                        MessageHandler->OnControllerButtonReleased(ButtonKey.GetFName(), 0, false);
+                        MessageHandler->OnControllerButtonReleased(ButtonKey.GetFName(), PlatformUserId, InputDeviceId, /*IsRepeat=*/false);
                     }
                 }
             }
@@ -250,7 +253,7 @@ namespace MozaDirectInput
             if (PreviousValue != CurrentValue)
             {
                 const float Normalized = NormalizeAxis(CurrentValue);
-                MessageHandler->OnControllerAnalog(Key.GetFName(), 0, Normalized);
+                MessageHandler->OnControllerAnalog(Key.GetFName(), PlatformUserId, InputDeviceId, Normalized);
             }
         }
 
@@ -258,6 +261,8 @@ namespace MozaDirectInput
         Microsoft::WRL::ComPtr<IDirectInput8> DirectInput;
         Microsoft::WRL::ComPtr<IDirectInputDevice8> WheelDevice;
         TSharedRef<FGenericApplicationMessageHandler> MessageHandler;
+        FPlatformUserId PlatformUserId;
+        FInputDeviceId InputDeviceId;
         DIJOYSTATE2 PreviousState;
         DIJOYSTATE2 CurrentState;
         bool bDeviceReady;

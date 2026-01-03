@@ -1,5 +1,5 @@
 using UnrealBuildTool;
-using System.Collections.Generic;
+using System.IO;
 
 public class MozaDirectInput : ModuleRules
 {
@@ -19,8 +19,6 @@ public class MozaDirectInput : ModuleRules
             "ApplicationCore"
         });
 
-        PrivateDependencyModuleNames.AddRange(new string[] { });
-
         if (Target.Platform == UnrealTargetPlatform.Win64)
         {
             PublicSystemLibraries.AddRange(new string[]
@@ -28,8 +26,15 @@ public class MozaDirectInput : ModuleRules
                 "dinput8.lib",
                 "dxguid.lib"
             });
-            PublicIncludePaths.Add("$(ThirdPartySourceDir)/Windows/DirectX/include");
-            AddEngineThirdPartyPrivateStaticDependencies(Target, "Microsoft.Dx11");
+
+            // Prefer UE-bundled DirectX headers if present; otherwise rely on Windows SDK.
+            string DirectXInclude = Path.Combine(EngineDirectory, "Source", "ThirdParty", "Windows", "DirectX", "include");
+            if (Directory.Exists(DirectXInclude))
+            {
+                PublicSystemIncludePaths.Add(DirectXInclude);
+            }
+
+            
         }
     }
 }
