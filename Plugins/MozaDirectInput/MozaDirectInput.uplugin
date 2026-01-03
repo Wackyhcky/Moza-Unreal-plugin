@@ -5,7 +5,7 @@
   "FriendlyName": "Moza DirectInput",
   "Description": "DirectInput bridge for Moza steering wheels so they can be used inside the Unreal Editor and at runtime.",
   "Category": "Input",
-  "CreatedBy": "OpenAI",
+  "CreatedBy": "WackyHacky",
   "CreatedByURL": "https://github.com",
   "DocsURL": "",
   "MarketplaceURL": "",
