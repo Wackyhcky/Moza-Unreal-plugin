@@ -1,0 +1,26 @@
+{
+  "FileVersion": 3,
+  "Version": 1,
+  "VersionName": "1.0.0",
+  "FriendlyName": "Moza DirectInput",
+  "Description": "DirectInput bridge for Moza steering wheels so they can be used inside the Unreal Editor and at runtime.",
+  "Category": "Input",
+  "CreatedBy": "OpenAI",
+  "CreatedByURL": "https://github.com",
+  "DocsURL": "",
+  "MarketplaceURL": "",
+  "EnabledByDefault": true,
+  "CanContainContent": false,
+  "IsBetaVersion": true,
+  "SupportURL": "",
+  "Modules": [
+    {
+      "Name": "MozaDirectInput",
+      "Type": "Input",
+      "LoadingPhase": "PreDefault"
+    }
+  ],
+  "SupportedTargetPlatforms": [
+    "Win64"
+  ]
+}
